@@ -6,7 +6,7 @@ TCE_VERSION="14.x"
 ARCH="x86_64"
 TCE_MIRROR="http://tinycorelinux.net"
 BOOT_DIR="/boot/tinycore"
-WORKDIR="/top/tinycore_initrd"
+WORKDIR="/tmp/tinycore_initrd"
 KERNEL_URL="$TCE_MIRROR/$TCE_VERSION/$ARCH/release/distribution_files/vmlinuz64"
 INITRD_URL="$TCE_MIRROR/$TCE_VERSION/$ARCH/release/distribution_files/corepure64.gz"
 KERNEL_PATH="$BOOT_DIR/vmlinuz64"
@@ -75,10 +75,10 @@ cd "$WORKDIR"
 find . | cpio -o -H newc | gzip -c > "$INITRD_PATCHED"
 
 echo "[6/6] Adding GRUB entry and setting default..."
-if ! grep -q " TinyCore SSH Auto" "$GRUB_ENTRY"; then
+if ! grep -q "🔧 TinyCore SSH Auto" "$GRUB_ENTRY"; then
 cat <<EOF >> "$GRUB_ENTRY"
 
-menuentry " TinyCore SSH Auto" {
+menuentry "🔧 TinyCore SSH Auto" {
     insmod part_gpt
     insmod ext2
     linux $KERNEL_PATH console=ttyS0 quiet
@@ -93,6 +93,6 @@ sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=1/' "$GRUB_CFG" || echo 'GRUB_TIMEOUT=1'
 
 update-grub
 
-echo -e "\n DONE! Reboot to enter TinyCore and SSH will be enabled."
-#echo -e " Login as: root / Wade"
-#echo -e " Make sure port 22 is allowed in your cloud firewall rules.\n"
+echo -e "\n✅ DONE! Reboot to enter TinyCore and SSH will be enabled."
+#echo -e "🔐 Login as: root / Wade"
+#echo -e "🔌 Make sure port 22 is allowed in your cloud firewall rules.\n"
